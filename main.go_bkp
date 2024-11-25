@@ -1,0 +1,91 @@
+package main
+
+import (
+	"context"
+	"fmt"
+	"io"
+	"log/slog"
+	"net/http"
+	"os"
+	"os/signal"
+	"sync"
+	"time"
+
+	"github.com/filipeandrade6/fiap-pedeai-clientes/adapters/repository/postgresql"
+	"github.com/filipeandrade6/fiap-pedeai-clientes/controllers/api"
+	"github.com/filipeandrade6/fiap-pedeai-clientes/domain/services"
+)
+
+func main() {
+	ctx := context.Background()
+	if err := run(ctx, os.Getenv, os.Stderr, false); err != nil {
+		fmt.Fprintf(os.Stderr, "%s\n", err)
+		os.Exit(1)
+	}
+}
+
+func run(
+	ctx context.Context,
+	getenv func(string) string,
+	stderr io.Writer,
+	isTest bool,
+) error {
+
+	logger := slog.New(slog.NewJSONHandler(stderr, nil))
+
+	ctx, cancel := signal.NotifyContext(ctx, os.Interrupt)
+	defer cancel()
+
+	// ====================
+	// database
+
+	db, err := postgresql.New(ctx, postgresql.Config{
+		Host:       "localhost",
+		Port:       "5432",
+		User:       "pedeai",
+		Password:   "senha1ABC",
+		Name:       "pedeai",
+		DisableTLS: true,
+	})
+	if err != nil {
+		return fmt.Errorf("connecting to database: %w", err)
+	}
+
+	// ====================
+	// services
+
+	clienteSvc := services.New(db)
+
+	// ====================
+	// HTTP server
+
+	srv := api.NewServer(logger, clienteSvc)
+
+	httpServer := &http.Server{
+		// Addr:    net.JoinHostPort(Host, config.Port),
+		Addr:    ":8081", // TODO: puxar das configurações
+		Handler: srv,
+	}
+
+	go func() {
+		logger.Info("listening", "address", httpServer.Addr)
+		if err := httpServer.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			logger.Info("error listening and serving", "error", err)
+		}
+	}()
+
+	var wg sync.WaitGroup
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		<-ctx.Done()
+		shutdownCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		defer cancel()
+		if err := httpServer.Shutdown(shutdownCtx); err != nil {
+			logger.Error("error shutting down http server", "error", err)
+		}
+	}()
+	wg.Wait()
+
+	return nil
+}
