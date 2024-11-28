@@ -31,10 +31,11 @@ jobs:
         #   # Disabling shallow clones is recommended for improving the relevancy of reporting
         #   fetch-depth: 0
       
-      - name: SonarQube Scan
-        uses: sonarsource/sonarqube-scan-action@v4.0.0
+      - name: SonarQube Cloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}     
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  
       
       - name: Set short git commit SHA
         id: commit
