@@ -26,3 +26,7 @@ sqp_9ab9301c990fead9702c66af8113d7fd0627018b
 /home/filipe/projetos/sonarqube-scanner/sem-java/bin/sonar-scanner   -Dsonar.projectKey=pedeai-clientes   -Dsonar.sources=.   -Dsonar.host.url=http://localhost:9000   -Dsonar.token=sqp_9ab9301c990fead9702c66af8113d7fd0627018b
 
 https://stackoverflow.com/questions/52962493/how-to-exclude-golang-tests-structs-and-constants-from-counting-against-code-co
+
+**/*_test.go
+coverage.out
+report.json

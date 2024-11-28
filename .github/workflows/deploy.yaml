@@ -26,7 +26,15 @@ jobs:
     
     steps:
       - name: Checkout                                  
-        uses: actions/checkout@v4                       
+        uses: actions/checkout@v4
+        # with:
+        #   # Disabling shallow clones is recommended for improving the relevancy of reporting
+        #   fetch-depth: 0
+      
+      - name: SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@v4.0.0
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}     
       
       - name: Set short git commit SHA
         id: commit
