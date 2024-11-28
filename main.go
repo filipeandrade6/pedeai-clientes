@@ -21,11 +21,11 @@ func main() {
 	// database
 
 	db, err := postgresql.New(ctx, postgresql.Config{
-		Host:       "localhost",
-		Port:       "5432",
-		User:       "pedeai",
-		Password:   "senha1ABC",
-		Name:       "pedeai",
+		Host:       os.Getenv("DB_HOST"),
+		Port:       os.Getenv("DB_PORT"),
+		User:       os.Getenv("DB_USER"),
+		Password:   os.Getenv("DB_PASS"),
+		Name:       os.Getenv("DB_NAME"),
 		DisableTLS: true,
 	})
 	if err != nil {

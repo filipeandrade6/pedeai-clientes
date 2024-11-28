@@ -10,7 +10,7 @@ services:
     environment:
       POSTGRES_USER: pedeai
       POSTGRES_PASSWORD: senha1ABC
-      POSTGRES_DB: pedeai
+      POSTGRES_DB: pedeai-clientes
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:

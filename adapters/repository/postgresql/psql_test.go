@@ -15,7 +15,7 @@ import (
 func TestWithPostgres(t *testing.T) {
 	ctx := context.Background()
 
-	dbName := "pedeai"
+	dbName := "pedeai-clientes"
 	dbUser := "pedeai"
 	dbPassword := "senha1ABC"
 
