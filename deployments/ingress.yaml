@@ -20,7 +20,7 @@ spec:
           service:
             name: app-clientes-svc
             port:
-              number: 80
+              number: 8081
       # - path: /itens
       #   pathType: Prefix
       #   backend:
