@@ -6,5 +6,5 @@ data:
   DB_HOST: "DB_HOST_ADDRESS"
   DB_PORT: "5432"
   DB_USER: "pedeai"
-  DB_NAME: "pedeai-clientes"
+  DB_NAME: "pedeaiclientes"
   DB_PASS: "senha1ABC"

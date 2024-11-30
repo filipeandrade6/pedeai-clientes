@@ -20,8 +20,6 @@ func main() {
 	// ====================
 	// database
 
-	// puxar config de arquivo?
-
 	db, err := postgresql.New(ctx, postgresql.Config{
 		Host:       os.Getenv("DB_HOST"),
 		Port:       os.Getenv("DB_PORT"),

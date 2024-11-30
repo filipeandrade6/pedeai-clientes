@@ -3,10 +3,18 @@
 ```shell
 go test -v -coverprofile coverage.out ./...
 go tool cover -func coverage.out
+go test -json > report.out
 # go tool cover -html coverage.out -o cover.html
 # open cover.html
 ```
 
+pedeaiclientes
+
+## Dockerbuild
+build da aplicação
+docker build -f deployments/Dockerfile.yaml .
+
+## Erro sonarqube (teste local)
 erro do elasticsearch ao subir sonarqube com o dockercompose
 https://stackoverflow.com/questions/57175156/cannot-start-sonarqube-because-of-memory-problem
 sysctl -w vm.max_map_count=262144
