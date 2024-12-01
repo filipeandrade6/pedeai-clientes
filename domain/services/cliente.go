@@ -18,13 +18,7 @@ func New(repository ports.Repository) *Service {
 	return &Service{repository}
 }
 
-// TODO: complementar os erros no repositorio que nao sao ErrNotFound
-
 func (s *Service) Create(cliente entities.Cliente) (entities.ID, error) {
-	// if err := cliente.Validate(); err != nil {
-	// 	return uuid.Nil, err
-	// }
-
 	c, err := s.repo.GetClienteByCPF(cliente.CPF())
 	if err != nil {
 		if !errors.Is(err, entityErr.ErrNotFound) {
@@ -44,15 +38,6 @@ func (s *Service) Create(cliente entities.Cliente) (entities.ID, error) {
 	if c != nil {
 		return uuid.Nil, entityErr.ErrClienteAlreadyExistsForEmail
 	}
-	// else {
-	// 	cliente := c
-	// 	buf := new(bytes.Buffer)
-	// 	if err := json.NewEncoder(buf).Encode(someData); err != nil {
-	// 		res.WriteHeader(res, "whoops", http.StatusInternalServerError)
-	// 		return
-	// 	}
-	// 	io.Copy(res, buf) // reads from buf, writes to res
-	// }
 
 	id := entities.NewID()
 
@@ -63,13 +48,21 @@ func (s *Service) Create(cliente entities.Cliente) (entities.ID, error) {
 
 	s.repo.Create(*c2)
 
+	if err == nil {
+		buff := make([]byte, 10)
+		b, _ := c2.Id().MarshalBinary()
+		_ = fmt.Sprintf("%s, %s", buff, b)
+		_ = c2.Validate()
+		return id, nil
+	}
+
 	return id, nil
 }
 
 func (s *Service) List() ([]*entities.Cliente, error) {
 	c, err := s.repo.List()
 	if err != nil {
-		return nil, err // TODO: alterar isso aqui
+		return nil, err
 	}
 
 	return c, nil
@@ -106,7 +99,6 @@ func (s *Service) Update(cliente entities.Cliente) error {
 	if err := cliente.Validate(); err != nil {
 		return err
 	}
-	// TODO: vai ter que arrumar isso aqui
 	if err := s.repo.Update(cliente); err != nil {
 		return err
 	}
@@ -115,7 +107,6 @@ func (s *Service) Update(cliente entities.Cliente) error {
 }
 
 func (s *Service) Remove(id entities.ID) error {
-	// TODO: vai ter que arrumar isso aqui
 	if err := s.repo.Remove(id); err != nil {
 		return err
 	}

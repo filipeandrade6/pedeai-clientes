@@ -166,10 +166,5 @@ func ClienteDecode(r *http.Request) (*entities.Cliente, error) {
 		return nil, err
 	}
 
-	// cDomain, err := c.ToDomain()
-	// if err != nil {
-	// 	return nil, err
-	// }
-
 	return &c, nil
 }
