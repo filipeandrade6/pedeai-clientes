@@ -12,7 +12,7 @@ spec:
         app: pedeai-clientes
     spec:
       containers:
-        - name: pedeai
+        - name: pedeai-clientes
           image: DOCKER_IMAGE
           ports:
             - containerPort: 8081
