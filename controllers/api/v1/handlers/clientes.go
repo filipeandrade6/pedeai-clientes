@@ -35,25 +35,25 @@ func HandleListClientes(clienteUC usecases.ClienteUseCase) http.HandlerFunc {
 			ClienteResponse(w, cliente)
 			return
 		} else {
-			clientes, err := clienteUC.List()
-			if err != nil {
-				http.Error(w, "Internal Error", http.StatusInternalServerError)
-				return
-			}
+			clientes, _ := clienteUC.List()
+			// if err != nil {
+			// 	http.Error(w, "Internal Error", http.StatusInternalServerError)
+			// 	return
+			// }
 
 			var cOut []*entities.Cliente
 			for _, c := range clientes {
-				out, err := entities.FromDomain(c)
-				if err != nil {
-					http.Error(w, "Internal Error", http.StatusInternalServerError)
-					return
-				}
+				out, _ := entities.FromDomain(c)
+				// if err != nil {
+				// 	http.Error(w, "Internal Error", http.StatusInternalServerError)
+				// 	return
+				// }
 
 				cOut = append(cOut, out)
 			}
 
 			jEncode := json.NewEncoder(w)
-			err = jEncode.Encode(cOut)
+			err := jEncode.Encode(cOut)
 			if err != nil {
 				http.Error(w, "Internal Error", http.StatusInternalServerError)
 				return
@@ -152,7 +152,7 @@ func ClienteResponse(w http.ResponseWriter, c *entitiesDomain.Cliente) {
 		return
 	}
 	jEncode := json.NewEncoder(w)
-	err = jEncode.Encode(cOut)
+	_ = jEncode.Encode(cOut)
 	if err != nil {
 		http.Error(w, "Internal Error", http.StatusInternalServerError)
 		return

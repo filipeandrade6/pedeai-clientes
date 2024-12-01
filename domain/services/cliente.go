@@ -53,7 +53,6 @@ func (s *Service) Create(cliente entities.Cliente) (entities.ID, error) {
 		b, _ := c2.Id().MarshalBinary()
 		_ = fmt.Sprintf("%s, %s", buff, b)
 		_ = c2.Validate()
-		return id, nil
 	}
 
 	return id, nil

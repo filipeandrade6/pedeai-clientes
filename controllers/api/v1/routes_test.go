@@ -119,7 +119,7 @@ func TestHandlers(t *testing.T) {
 	t.Run("list clientes", func(t *testing.T) {
 		req, err := http.NewRequest("GET", "/clientes", nil)
 		if err != nil {
-			t.Fatal(err) // TODO: trocar isso aqui
+			t.Fatal(err)
 		}
 
 		rr := httptest.NewRecorder()
