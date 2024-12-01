@@ -36,19 +36,9 @@ func HandleListClientes(clienteUC usecases.ClienteUseCase) http.HandlerFunc {
 			return
 		} else {
 			clientes, _ := clienteUC.List()
-			// if err != nil {
-			// 	http.Error(w, "Internal Error", http.StatusInternalServerError)
-			// 	return
-			// }
-
 			var cOut []*entities.Cliente
 			for _, c := range clientes {
 				out, _ := entities.FromDomain(c)
-				// if err != nil {
-				// 	http.Error(w, "Internal Error", http.StatusInternalServerError)
-				// 	return
-				// }
-
 				cOut = append(cOut, out)
 			}
 
