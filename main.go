@@ -28,7 +28,7 @@ func main() {
 		User:       os.Getenv("DB_USER"),
 		Password:   os.Getenv("DB_PASS"),
 		Name:       os.Getenv("DB_NAME"),
-		DisableTLS: true,
+		DisableTLS: false,
 	})
 	if err != nil {
 		logger.Error("connecting to database", "error", err)
