@@ -6,8 +6,6 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
-	"sync"
-	"time"
 
 	"github.com/filipeandrade6/fiap-pedeai-clientes/adapters/repository/postgresql"
 	"github.com/filipeandrade6/fiap-pedeai-clientes/controllers/api"
@@ -41,28 +39,7 @@ func main() {
 		Handler: srv,
 	}
 
-	// if err := httpServer.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-	// 	logger.Info("listening and serving", "error", err)
-	// }
-
-	//
-
-	go func() {
-		logger.Info("listening", "address", httpServer.Addr)
-		if err := httpServer.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			logger.Info("error listening and serving", "error", err)
-		}
-	}()
-	var wg sync.WaitGroup
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
-		<-ctx.Done()
-		shutdownCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-		defer cancel()
-		if err := httpServer.Shutdown(shutdownCtx); err != nil {
-			logger.Error("error shutting down http server", "error", err)
-		}
-	}()
-	wg.Wait()
+	if err := httpServer.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+		logger.Info("listening and serving", "error", err)
+	}
 }

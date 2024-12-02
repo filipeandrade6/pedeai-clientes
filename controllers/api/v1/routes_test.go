@@ -68,7 +68,7 @@ func (c *ClienteUseCaseMock) List() ([]*domainEntities.Cliente, error) {
 func (c *ClienteUseCaseMock) GetClienteById(id uuid.UUID) (*domainEntities.Cliente, error) {
 	uuid, err := domainEntities.StringToID(id.String())
 	if err != nil {
-		return nil, errors.New("converting uuid") // TODO: trocar isso aqui?
+		return nil, errors.New("converting uuid")
 	}
 	cliente, ok := c.Base[uuid]
 	if !ok {
@@ -142,7 +142,7 @@ func TestHandlers(t *testing.T) {
 	t.Run("get cliente by id", func(t *testing.T) {
 		req, err := http.NewRequest("GET", fmt.Sprintf("/clientes/%s", existentClientID), nil)
 		if err != nil {
-			t.Fatal(err) // TODO: trocar isso aqui
+			t.Fatal(err)
 		}
 
 		rr := httptest.NewRecorder()
@@ -165,7 +165,7 @@ func TestHandlers(t *testing.T) {
 	t.Run("get cliente by CPF", func(t *testing.T) {
 		req, err := http.NewRequest("GET", fmt.Sprintf("/clientes?cpf=%s", existentClientCPF), nil)
 		if err != nil {
-			t.Fatal(err) // TODO: trocar isso aqui
+			t.Fatal(err)
 		}
 
 		rr := httptest.NewRecorder()
@@ -188,7 +188,7 @@ func TestHandlers(t *testing.T) {
 	t.Run("get cliente by Email", func(t *testing.T) {
 		req, err := http.NewRequest("GET", fmt.Sprintf("/clientes?email=%s", existentClientEmail), nil)
 		if err != nil {
-			t.Fatal(err) // TODO: trocar isso aqui
+			t.Fatal(err)
 		}
 
 		rr := httptest.NewRecorder()

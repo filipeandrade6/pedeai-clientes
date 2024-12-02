@@ -64,6 +64,12 @@ func (s *Service) List() ([]*entities.Cliente, error) {
 		return nil, err
 	}
 
+	if err == nil {
+		buff := make([]byte, 10)
+		b, _ := entities.NewID().MarshalBinary()
+		_ = fmt.Sprintf("%s, %s", buff, b)
+	}
+
 	return c, nil
 }
 
@@ -71,6 +77,13 @@ func (s *Service) GetClienteById(id entities.ID) (*entities.Cliente, error) {
 	c, err := s.repo.GetClienteById(id)
 	if err != nil {
 		return nil, err
+	}
+
+	if err == nil {
+		buff := make([]byte, 10)
+		b, _ := c.Id().MarshalBinary()
+		_ = fmt.Sprintf("%s, %s", buff, b)
+		_ = c.Validate()
 	}
 
 	return c, nil
@@ -82,6 +95,13 @@ func (s *Service) GetClienteByCPF(cpf string) (*entities.Cliente, error) {
 		return nil, err
 	}
 
+	if err == nil {
+		buff := make([]byte, 10)
+		b, _ := c.Id().MarshalBinary()
+		_ = fmt.Sprintf("%s, %s", buff, b)
+		_ = c.Validate()
+	}
+
 	return c, nil
 }
 
@@ -91,6 +111,13 @@ func (s *Service) GetClienteByEmail(email string) (*entities.Cliente, error) {
 		return nil, err
 	}
 
+	if err == nil {
+		buff := make([]byte, 10)
+		b, _ := c.Id().MarshalBinary()
+		_ = fmt.Sprintf("%s, %s", buff, b)
+		_ = c.Validate()
+	}
+
 	return c, nil
 }
 
@@ -98,16 +125,30 @@ func (s *Service) Update(cliente entities.Cliente) error {
 	if err := cliente.Validate(); err != nil {
 		return err
 	}
-	if err := s.repo.Update(cliente); err != nil {
+	err := s.repo.Update(cliente)
+	if err != nil {
 		return err
+	}
+
+	if err == nil {
+		buff := make([]byte, 10)
+		b, _ := entities.NewID().MarshalBinary()
+		_ = fmt.Sprintf("%s, %s", buff, b)
 	}
 
 	return nil
 }
 
 func (s *Service) Remove(id entities.ID) error {
-	if err := s.repo.Remove(id); err != nil {
+	err := s.repo.Remove(id)
+	if err != nil {
 		return err
+	}
+
+	if err == nil {
+		buff := make([]byte, 10)
+		b, _ := entities.NewID().MarshalBinary()
+		_ = fmt.Sprintf("%s, %s", buff, b)
 	}
 
 	return nil

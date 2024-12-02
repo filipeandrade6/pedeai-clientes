@@ -1,40 +1,53 @@
-## Teste
+# Clientes Pedeai API
 
-```shell
-go test -v -coverprofile coverage.out ./...
-go tool cover -func coverage.out
-go test -json > report.out
-# go tool cover -html coverage.out -o cover.html
-# open cover.html
-```
+This project uses Go with Chi lightweight web framework.
 
-pedeaiclientes
+## Testing
 
-## Dockerbuild
-build da aplicação
-docker build -f deployments/Dockerfile.yaml .
+#### To generate test coverage:
+- `go test -v -coverprofile coverage.out ./...`
 
-## Erro sonarqube (teste local)
-erro do elasticsearch ao subir sonarqube com o dockercompose
-https://stackoverflow.com/questions/57175156/cannot-start-sonarqube-because-of-memory-problem
-sysctl -w vm.max_map_count=262144
-sysctl -w fs.file-max=65535
+#### To get show total test code coverage:
+- `go tool cover -func coverage.out`
 
-admin:pedeaiAPI123!
+#### To generate html file with tests code coverage (DO NOT DISPLAY TOTAL COVERAGE):
+- `go tool cover -html coverage.out -o cover.html`
 
-sqp_9ab9301c990fead9702c66af8113d7fd0627018b
+#### To generate report to sonarqube code coverage:
+- `go test -json > report.out`
 
-/home/filipe/projetos/sonarqube-scanner/sonar-scanner-cli-6.2.1.4610-linux-x64/sonar-scanner-6.2.1.4610-linux-x64/bin \
-  -Dsonar.projectKey=pedeai-clientes \
-  -Dsonar.sources=. \
-  -Dsonar.host.url=http://localhost:9000 \
-  -Dsonar.token=sqp_9ab9301c990fead9702c66af8113d7fd0627018b
+### Sonarqube configuration
 
-
-/home/filipe/projetos/sonarqube-scanner/sem-java/bin/sonar-scanner   -Dsonar.projectKey=pedeai-clientes   -Dsonar.sources=.   -Dsonar.host.url=http://localhost:9000   -Dsonar.token=sqp_9ab9301c990fead9702c66af8113d7fd0627018b
-
+follow steps in stackoverflow to ignore tests files from report:
 https://stackoverflow.com/questions/52962493/how-to-exclude-golang-tests-structs-and-constants-from-counting-against-code-co
 
-**/*_test.go
-coverage.out
-report.json
+### Running the Application
+
+- Docker
+- Docker Compose
+
+### Steps
+
+1. Clone this repository
+2. Build the dockerfile image
+3. Run `docker-compose up` inside deployments folder
+4. Application with be server in localhost port 8081
+
+## Hexagonal Architecture
+
+This project follows the principles of Hexagonal Architecture (also known as Ports and Adapters Architecture). The main goal of this architecture is to create loosely coupled application components that can be easily tested and maintained.
+
+### Key Concepts
+
+- **Domain Layer**: Contains the core business logic and domain entities. This layer is independent of any external systems or frameworks.
+- **Application Layer**: Contains the application services that orchestrate the business logic. This layer interacts with the domain layer and external systems through ports.
+- **Ports**: Interfaces that define the input and output boundaries of the application. Ports are implemented by adapters.
+- **Adapters**: Implementations of the ports that interact with external systems (e.g., databases, messaging systems, external APIs).
+
+### Project Structure
+
+- `domain/entities`: Contains the domain entities and business logic.
+- `domain/service`: Contains the application services.
+- `domain/ports`: Contains the port interfaces.
+- `adapters`: Contains the adapter implementations.
+- `controllers`: Contains the REST controllers.

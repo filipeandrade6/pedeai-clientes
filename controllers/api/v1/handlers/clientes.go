@@ -11,9 +11,6 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
-// TODO: retornar mensagem de erro, esta retornando apenas http.Error
-// TODO: arrumar essa bagunça aqui
-
 func HandleListClientes(clienteUC usecases.ClienteUseCase) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Query().Get("cpf") != "" {

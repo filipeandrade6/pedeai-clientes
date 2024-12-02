@@ -12,8 +12,6 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
-// TODO: utilizar context de cima?
-
 func (r *Repository) Create(cliente entities.Cliente) error {
 	_, err := r.db.CreateCliente(
 		context.Background(),
@@ -26,7 +24,6 @@ func (r *Repository) Create(cliente entities.Cliente) error {
 		},
 	)
 	if err != nil {
-		// TODO: tratar melhor esses erros aqui
 		return fmt.Errorf("db creating cliente: %w", err)
 	}
 
